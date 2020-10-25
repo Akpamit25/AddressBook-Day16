@@ -1,9 +1,6 @@
 package com.Capgemini.AddressBook;
 
-import java.util.Map;
-import java.util.Scanner;
-
-
+import java.io.IOException;
 import java.util.*;
 
 public class AddressBookMain {
@@ -44,11 +41,13 @@ public class AddressBookMain {
 			System.out.println("12.View Alphabetically sorted contacts in a particular address book by city");
 			System.out.println("13.View Alphabetically sorted contacts in a particular address book by state");
 			System.out.println("14.View Alphabetically sorted contacts in a particular address book by zip");
-			System.out.println("15.Exit");
+			System.out.println("15.Write Address Book to file");
+			System.out.println("16.Read Address Book from file");
+			System.out.println("17.Exit");
 
 			int choice = sc.nextInt();
 
-			if (choice == 15)
+			if (choice == 17)
 				break;
 
 			switch (choice) {
@@ -176,10 +175,34 @@ public class AddressBookMain {
 				AddressBook.viewSortedContactsByZipInAddressBook(sc.next());
 				break;
 
+			case 15:
+				AddressBookList();
+				System.out.println("Enter the name of address Book to write");
+				String abook4 = sc.next();
+				AddressBook a4 = AddressBook.hm.get(abook4);
+				System.out.println("Writing to file");
+				try {
+					a4.writeToFile(abook4);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
+
+			case 16:
+				AddressBookList();
+				System.out.println("Enter the name of address Book to read");
+				String abook5 = sc.next();
+				AddressBook a5 = AddressBook.hm.get(abook5);
+				System.out.println("Reading from file");
+				try {
+					a5.readFromFile(abook5);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				break;
 			}
 
 		}
 	}
-
 
 }

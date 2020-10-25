@@ -1,5 +1,8 @@
 package com.Capgemini.AddressBook;
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -221,6 +224,43 @@ public class AddressBook {
 		hm.get(AddressBookName).list.stream().sorted(Comparator.comparing(AddressBookContacts::getZip))
 				.map(i -> i.toString()).forEach(y -> System.out.println(y));
 	}
+	
+	///UC 13
+
+	public void writeToFile(String AddressBookName) throws IOException {
+		Path pathLoc = Paths.get("D:\\Capg_Bridgelabz\\AddressBookDay 16\\src\\OutputFolder");
+		if (Files.notExists(pathLoc))
+			Files.createDirectory(pathLoc);
+
+		Path fileLoc = Paths.get(pathLoc + "\\" + AddressBookName + ".txt");
+		if (Files.notExists(fileLoc))
+			Files.createFile(fileLoc);
+		StringBuffer empBuffer = new StringBuffer();
+		list.forEach(book -> {
+			String bookDataString = book.toString().concat("\n");
+			empBuffer.append(bookDataString);
+		});
+
+		try {
+			Files.write(fileLoc, empBuffer.toString().getBytes());
+			System.out.println("Details succesfully added to address book file");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void readFromFile(String AddressBookName) throws IOException {
+		Path pathLoc = Paths.get("D:\\Capg_Bridgelabz\\AddressBookDay 16\\src\\OutputFolder");
+		Path fileLoc = Paths.get(pathLoc + "\\" + AddressBookName + ".txt");
+		try {
+			System.out.println("The contacts in the address book are : ");
+			Files.lines(fileLoc).map(line -> line.trim()).forEach(line -> System.out.println(line));
+			System.out.println("The contacts in the address book are : ");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
-
